@@ -18,17 +18,23 @@ public class Ball{
     position_x = position_x+(xspeed*xdirection);
     position_y = position_y+(yspeed*ydirection);
     if (position_x> width+60) {
-        leftscore+=1;
+        leftscore = 1;
         position_x = width/2;
         position_y = height/2;
         game.score(0,leftscore);
     }
     else if (position_x<-60) {
-        Rightscore+=1;
+        Rightscore = 1;
         position_x = width/2;
         position_y = height/2;
         game.score(Rightscore,0);
     }
+    if ( position_x > width-50 && position_x < width -40 && position_y > mouseY-400/2 && position_y < mouseY+200 ) {
+        xdirection *= -1;
+    } 
+    if ( position_x > width-880 && position_x < width -850 && position_y > mouseY-400/2 && position_y < mouseY+200 ) {
+        xdirection *= -1;
+    } 
     if (position_y > height-(size/2)|| position_y < size/2) {
         ydirection *= -1;
     }
@@ -41,23 +47,21 @@ public class Pong_game{
   int scoreR = 0, scoreL = 0,r,l;
   float position_x,position_y,size;
   
-  
-  public void update(){
-  }
-  
-  
  void score(int r, int l){
-   scoreR = r;
-   scoreL = l;
+   scoreR = scoreR+ r;
+   scoreL = scoreL+l;
+   scoreboard();
    
-   board();
  }
- void board(){
+ void scoreboard(){
    textSize(50);
    text(scoreR, 800 , 50);
    text(scoreL, 100, 50);
+   board();
  }
- 
+ void board(){
+   rect(width/2, 0, 10 ,height);
+ }
 }
 public class Paddle{
   float bounce;
@@ -79,29 +83,18 @@ public class Paddle{
     rect(paddle_x-20, paddle_yR, paddle_w, paddle_h);
     rect(paddle_x-900, paddle_yL, paddle_w, paddle_h);
   }
-  public void racket_update(int y){
-    delay(60);
-  
-    
-  }
   public void move_racket(){
-    if (dist(paddle_x-20,paddle_y, mouseX, mouseY)< paddle_w+paddle_h){
-      cursor(HAND);
+    if (dist(paddle_x-20,paddle_y, mouseX, mouseY) < height-400 ){
       if(mousePressed){
         paddle_yR = mouseY;
       }   
     }
-    else if (dist(paddle_x-900,paddle_y, mouseX, mouseY) < paddle_h){
-      cursor(HAND);
+    if (dist(paddle_x-900,paddle_y, mouseX, mouseY) < height-350){
       if(mousePressed){
         paddle_yL = mouseY;
       }   
     }
-    else {
-      cursor(ARROW);
-    }
     draw();
-   
   }
   
   void ball_bounce(){
@@ -122,5 +115,5 @@ void draw(){
   background(0);
   ball.ball_move();
   paddle.move_racket();
-  game.board();
+  game.scoreboard();
 }
