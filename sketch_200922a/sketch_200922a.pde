@@ -1,6 +1,8 @@
 public class Ball{
   float position_x,  position_y;
   float size;
+  float xspeed = 2.8, yspeed = 2.2;
+  int xdirection = 1, ydirection = 1;
   
   Ball(float size1){
     position_x = width/2;
@@ -13,6 +15,15 @@ public class Ball{
     circle(position_x,position_y,size);
   }
   public void ball_move(){
+    position_x = position_x+(xspeed*xdirection);
+    position_y = position_y+(yspeed*ydirection);
+     if (position_x> width-(size/2)|| position_x < size/2) {
+        xdirection *= -1;
+    }
+    if (position_y > height-(size/2)|| position_y < size/2) {
+        ydirection *= -1;
+    }
+    draw();
   }
   
 }
@@ -33,14 +44,14 @@ public class Pong_Game{
 }
 public class Paddle{
   float bounce;
-  float paddle_x, paddle_y, paddle_w, paddle_h ;
+  float paddle_x, paddle_y, paddle_w, paddle_h ,paddle_yR, paddle_yL;
   String input;
   
   Paddle(float pad_w,float pad_h){
     paddle_x = width;
     paddle_y = height/3;
-    paddle_y = paddle_yL
-    paddle_y = paddle_yR
+    paddle_yL = paddle_y;
+    paddle_yR = paddle_y;
     paddle_w = pad_w;
     paddle_h = pad_h;
   }
@@ -56,16 +67,6 @@ public class Paddle{
     
   }
   public void move_racket(){
-    if(keyPressed){
-      if (key == 'w' || key == 'W'){
-          racket_update(-10);
-          println("C");
-        }
-        
-        else if (key == 's' || key == 'S'){
-          racket_update(10);
-        }
-    }
   }
   void ball_bounce(){
   }
@@ -81,6 +82,6 @@ void setup(){
 
 void draw(){
   background(0);
-  ball.draw();
+  ball.ball_move();
   paddle.draw(); 
 }
