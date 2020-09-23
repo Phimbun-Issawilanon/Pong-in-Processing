@@ -17,7 +17,7 @@ public class Ball{
   public void ball_move(){
     position_x = position_x+(xspeed*xdirection);
     position_y = position_y+(yspeed*ydirection);
-     if (position_x> width-(size/2)|| position_x < size/2) {
+    if (position_x> width-((size/2)+20)|| position_x < (size/2)+20) {
         xdirection *= -1;
     }
     if (position_y > height-(size/2)|| position_y < size/2) {
@@ -31,6 +31,7 @@ public class Ball{
 public class Pong_Game{
   int score;
   
+  
   public void ball_reset(){
   }
   
@@ -39,6 +40,9 @@ public class Pong_Game{
   
   
  void score(){
+   fill(255);
+   text(score, 28, 162);
+   
  }
  
 }
@@ -46,6 +50,7 @@ public class Paddle{
   float bounce;
   float paddle_x, paddle_y, paddle_w, paddle_h ,paddle_yR, paddle_yL;
   String input;
+  
   
   Paddle(float pad_w,float pad_h){
     paddle_x = width;
@@ -58,16 +63,33 @@ public class Paddle{
   
   public void draw(){
     fill(255);
-    rect(paddle_x-20, paddle_yL, paddle_w, paddle_h);
-    rect(paddle_x-900, paddle_yR, paddle_w, paddle_h);
+    rect(paddle_x-20, paddle_yR, paddle_w, paddle_h);
+    rect(paddle_x-900, paddle_yL, paddle_w, paddle_h);
   }
   public void racket_update(int y){
     delay(60);
-    paddle_y = paddle_y+y;
+  
     
   }
   public void move_racket(){
+    if (dist(paddle_x-20,paddle_y, mouseX, mouseY)< paddle_w+paddle_h){
+      cursor(HAND);
+      if(mousePressed){
+        paddle_yR = mouseY;
+      }   
+    }
+    else if (dist(paddle_x-900,paddle_y, mouseX, mouseY) < paddle_h){
+      cursor(HAND);
+      if(mousePressed){
+        paddle_yL = mouseY;
+      }   
+    }
+    else {
+      cursor(ARROW);
+    }
+    draw();
   }
+  
   void ball_bounce(){
   }
 }
@@ -83,5 +105,6 @@ void setup(){
 void draw(){
   background(0);
   ball.ball_move();
-  paddle.draw(); 
+  paddle.move_racket();
+
 }
