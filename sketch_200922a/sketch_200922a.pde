@@ -19,10 +19,14 @@ public class Ball{
     position_y = position_y+(yspeed*ydirection);
     if (position_x> width+60) {
         leftscore+=1;
+        position_x = width/2;
+        position_y = height/2;
         game.score(0,leftscore);
     }
     else if (position_x<-60) {
         Rightscore+=1;
+        position_x = width/2;
+        position_y = height/2;
         game.score(Rightscore,0);
     }
     if (position_y > height-(size/2)|| position_y < size/2) {
@@ -37,11 +41,6 @@ public class Pong_game{
   int scoreR = 0, scoreL = 0,r,l;
   float position_x,position_y,size;
   
-  public void ball_reset(){
-    
-    
-    
-  }
   
   public void update(){
   }
