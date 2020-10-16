@@ -118,7 +118,6 @@ void setup(){
   size(900,700);
   ball = new Ball(100);
   paddle = new Paddle(20,200);
- 
 }
 
 void draw(){
